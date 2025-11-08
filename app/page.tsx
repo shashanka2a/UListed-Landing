@@ -1,32 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/src/components/ui/button";
 import { Card } from "@/src/components/ui/card";
-import { Input } from "@/src/components/ui/input";
-import { ShieldCheck, ShoppingBag, MessageCircle, Send } from "lucide-react";
+import { ShieldCheck, ShoppingBag, MessageCircle, ArrowRight } from "lucide-react";
 import { CountdownTimer } from "@/src/components/CountdownTimer";
 import { motion } from "motion/react";
 import Image from "next/image";
+import Link from "next/link";
 import logo from "@/src/assets/3c236858ef9b00d424abd52b02cea90dbc74ff4b.png";
 
 export default function Home() {
-  const [email, setEmail] = useState("");
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleNotifyMe = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle email submission
-    console.log("Email submitted:", email);
-    alert("Thanks! We'll notify you when we launch! 🎉");
-    setEmail("");
-  };
+  const router = useRouter();
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+  };
+
+  const handleGetStarted = () => {
+    router.push("/marketplace/login");
   };
 
   return (
@@ -57,13 +52,14 @@ export default function Home() {
             Contact
           </button>
         </nav>
-        <Button 
-          variant="outline" 
-          className="hidden md:block"
-          onClick={() => scrollToSection('notify')}
-        >
-          Get Notified
-        </Button>
+        <Link href="/marketplace/login">
+          <Button 
+            className="hidden md:block"
+            style={{ backgroundColor: '#2563EB' }}
+          >
+            Get Started
+          </Button>
+        </Link>
       </header>
 
       {/* Hero Section */}
@@ -148,44 +144,28 @@ export default function Home() {
             </motion.a>
           </motion.div>
 
-          {/* Notify Me Form */}
-          <motion.form
-            id="notify"
+          {/* Get Started CTA */}
+          <motion.div
+            id="get-started"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1.0 }}
-            onSubmit={handleNotifyMe}
             className="max-w-md mx-auto pt-8"
           >
-            <div className="relative">
-              <Input
-                type="email"
-                placeholder="Enter your .edu email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="pr-12 py-6 rounded-full border-2 transition-all"
-                style={{
-                  borderColor: isHovered ? '#2563EB' : '#e5e7eb',
-                  boxShadow: isHovered ? '0 0 0 3px rgba(37, 99, 235, 0.1)' : 'none',
-                }}
-                onFocus={() => setIsHovered(true)}
-                onBlur={() => setIsHovered(false)}
-              />
-              <motion.button
-                type="submit"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center"
-                style={{ backgroundColor: '#2563EB' }}
-              >
-                <Send className="w-4 h-4 text-white" />
-              </motion.button>
-            </div>
-            <p className="text-xs text-gray-500 mt-3">
-              Be the first to know when UListed launches at your university! 🚀
+            <motion.button
+              onClick={handleGetStarted}
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full flex items-center justify-center gap-3 px-8 py-6 rounded-full text-base font-semibold text-white transition-shadow shadow-lg hover:shadow-xl"
+              style={{ backgroundColor: '#2563EB' }}
+            >
+              <span>Get Started</span>
+              <ArrowRight className="w-5 h-5" />
+            </motion.button>
+            <p className="text-xs text-gray-500 mt-4 text-center">
+              Join your campus marketplace today! 🚀
             </p>
-          </motion.form>
+          </motion.div>
         </div>
       </section>
 
