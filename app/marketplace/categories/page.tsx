@@ -49,29 +49,41 @@ export default function CategoriesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-white border-b border-gray-200 px-4 py-4">
-        <div className="flex items-center gap-3">
+      <header className="sticky top-0 z-40 bg-white border-b border-gray-200 px-6 py-6 shadow-sm">
+        <div className="flex items-center gap-3 max-w-7xl mx-auto">
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
             <Input
               type="text"
               placeholder="Search categories..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 h-11 rounded-xl border-2 bg-gray-50"
+              className="pl-12 h-12 rounded-xl border-2 border-gray-200 bg-white focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/10 transition-all"
             />
           </div>
         </div>
       </header>
 
       {/* Categories Grid */}
-      <div className="px-4 py-6">
-        <div className="mb-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-1">Browse Categories</h2>
-          <p className="text-sm text-gray-600">Find what you're looking for</p>
-        </div>
+      <div className="px-6 py-8 max-w-7xl mx-auto">
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="mb-8"
+        >
+          <h2 
+            className="text-gray-900 mb-2"
+            style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', fontWeight: 700 }}
+          >
+            Browse Categories
+          </h2>
+          <p className="text-gray-600" style={{ fontSize: 'clamp(0.875rem, 2vw, 1rem)', lineHeight: 1.6 }}>
+            Find what you're looking for
+          </p>
+        </motion.div>
 
         <div className="grid grid-cols-2 gap-4">
           {filteredCategories.map((category, index) => {
@@ -83,16 +95,26 @@ export default function CategoriesPage() {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.2, delay: index * 0.05 }}
               >
-                <Card
-                  onClick={() => handleCategoryClick(category.id)}
-                  className="rounded-2xl border border-gray-200 p-6 hover:shadow-lg transition-all cursor-pointer bg-white"
+                <motion.div
+                  whileHover={{ y: -4 }}
+                  transition={{ duration: 0.2 }}
                 >
-                  <div className={`w-12 h-12 ${category.color} rounded-xl flex items-center justify-center mb-4`}>
-                    <Icon className="w-6 h-6" />
-                  </div>
-                  <h3 className="font-semibold text-gray-900 mb-1">{category.name}</h3>
-                  <p className="text-sm text-gray-500">{category.count} listings</p>
-                </Card>
+                  <Card
+                    onClick={() => handleCategoryClick(category.id)}
+                    className="rounded-2xl border border-gray-200 p-6 hover:shadow-lg transition-all duration-300 cursor-pointer bg-white group"
+                  >
+                    <div className={`w-14 h-14 ${category.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                      <Icon className="w-7 h-7" />
+                    </div>
+                    <h3 
+                      className="font-semibold text-gray-900 mb-2"
+                      style={{ fontSize: '1rem', fontWeight: 600 }}
+                    >
+                      {category.name}
+                    </h3>
+                    <p className="text-sm text-gray-500">{category.count} listings</p>
+                  </Card>
+                </motion.div>
               </motion.div>
             );
           })}

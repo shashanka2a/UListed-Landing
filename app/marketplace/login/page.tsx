@@ -53,7 +53,7 @@ export default function LoginPage() {
         transition={{ duration: 0.4 }}
         className="w-full max-w-md"
       >
-        <Card className="p-8 rounded-2xl border border-gray-200 shadow-lg">
+        <Card className="p-8 rounded-2xl border border-gray-200 shadow-md hover:shadow-lg transition-shadow bg-white">
           {/* Logo */}
           <div className="flex flex-col items-center mb-8">
             <Image
@@ -63,8 +63,13 @@ export default function LoginPage() {
               width={64}
               height={64}
             />
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Welcome to UListed</h1>
-            <p className="text-gray-600 text-sm text-center">
+            <h1 
+              className="text-gray-900 mb-2" 
+              style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', fontWeight: 700 }}
+            >
+              Welcome to UListed
+            </h1>
+            <p className="text-gray-600 text-sm text-center" style={{ lineHeight: 1.6 }}>
               Sign in with your .edu email to continue
             </p>
           </div>
@@ -83,7 +88,7 @@ export default function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="pl-10 h-12 rounded-xl border-2"
+                  className="pl-10 h-12 rounded-xl border-2 border-gray-200 focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/10 transition-all"
                 />
               </div>
             </div>
@@ -101,24 +106,30 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="pl-10 h-12 rounded-xl border-2"
+                  className="pl-10 h-12 rounded-xl border-2 border-gray-200 focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/10 transition-all"
                 />
               </div>
             </div>
 
             {error && (
-              <div className="text-sm text-red-600 bg-red-50 p-3 rounded-xl">
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-sm text-red-600 bg-red-50 p-4 rounded-xl border border-red-200"
+              >
                 {error}
-              </div>
+              </motion.div>
             )}
-            <Button
-              type="submit"
-              disabled={isLoading}
-              className="w-full h-12 rounded-xl text-base font-semibold"
-              style={{ backgroundColor: "#2563EB" }}
-            >
-              {isLoading ? "Signing in..." : "Sign In"}
-            </Button>
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <Button
+                type="submit"
+                disabled={isLoading}
+                className="w-full h-12 rounded-xl text-base font-semibold shadow-md hover:shadow-lg transition-all"
+                style={{ backgroundColor: "#2563EB" }}
+              >
+                {isLoading ? "Signing in..." : "Sign In"}
+              </Button>
+            </motion.div>
           </form>
 
           <div className="mt-6 pt-6 border-t border-gray-200">

@@ -15,11 +15,11 @@ export default function MarketplaceLayout({
 
   return (
     <MarketplaceProvider>
-      <div className="min-h-screen bg-gray-50 pb-16">
+      <div className="min-h-screen bg-white pb-20">
         <motion.main
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.2 }}
+          transition={{ duration: 0.3 }}
           className="min-h-screen"
         >
           {children}

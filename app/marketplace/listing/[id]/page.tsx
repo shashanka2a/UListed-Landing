@@ -46,7 +46,7 @@ export default function ListingDetailPage({ params }: { params: Promise<{ id: st
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-white border-b border-gray-200 px-4 py-4">
+      <header className="sticky top-0 z-40 bg-white border-b border-gray-200 px-6 py-4 shadow-sm">
         <div className="flex items-center gap-3">
           <button
             onClick={() => router.back()}
@@ -62,90 +62,145 @@ export default function ListingDetailPage({ params }: { params: Promise<{ id: st
       </header>
 
       {/* Image Carousel */}
-      <div className="relative w-full aspect-square bg-gray-100">
+      <div className="relative w-full aspect-square bg-gray-100 overflow-hidden">
         <Image
-          src={listing.images[0]}
+          src={listing.images?.[0] || listing.image}
           alt={listing.title}
           fill
           className="object-cover"
           sizes="100vw"
         />
-        <button
+        <motion.button
           onClick={handleFavoriteClick}
-          className="absolute top-4 right-4 p-3 bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-colors"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          className="absolute top-4 right-4 p-3 bg-white/95 backdrop-blur-sm rounded-full shadow-md hover:shadow-lg transition-all"
         >
-          <Heart className={`w-5 h-5 ${isLiked ? "fill-red-500 text-red-500" : "text-gray-700"}`} />
-        </button>
+          <Heart className={`w-5 h-5 transition-colors ${isLiked ? "fill-red-500 text-red-500" : "text-gray-700"}`} />
+        </motion.button>
       </div>
 
       {/* Content */}
-      <div className="px-4 py-6 space-y-6">
+      <div className="px-6 py-8 max-w-4xl mx-auto space-y-8">
         {/* Title & Price */}
-        <div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">{listing.title}</h2>
-          <p className="text-3xl font-bold text-[#2563EB] mb-4">${listing.price}</p>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <h2 
+            className="text-gray-900 mb-3"
+            style={{ fontSize: 'clamp(1.5rem, 4vw, 2.5rem)', fontWeight: 700, lineHeight: 1.2 }}
+          >
+            {listing.title}
+          </h2>
+          <p 
+            className="font-bold mb-4"
+            style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)', color: '#2563EB' }}
+          >
+            ${listing.price}
+          </p>
           <div className="flex items-center gap-2 text-sm text-gray-600">
             <MapPin className="w-4 h-4" />
             <span>{listing.location}</span>
             <span>•</span>
             <span>{listing.posted}</span>
           </div>
-        </div>
+        </motion.div>
 
         {/* Seller Info */}
-        <Card className="rounded-2xl border border-gray-200 p-4 bg-white">
-          <div className="flex items-center gap-3">
-            <div className="relative w-12 h-12 rounded-full overflow-hidden">
-              <Image
-                src={listing.seller.avatar}
-                alt={listing.seller.name}
-                fill
-                className="object-cover"
-                sizes="48px"
-              />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+        >
+          <Card className="rounded-2xl border border-gray-200 p-5 bg-white shadow-sm hover:shadow-md transition-shadow">
+            <div className="flex items-center gap-4">
+              <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-gray-200 shadow-sm">
+                <Image
+                  src={listing.seller.avatar}
+                  alt={listing.seller.name}
+                  fill
+                  className="object-cover"
+                  sizes="56px"
+                />
+              </div>
+              <div className="flex-1">
+                <h3 
+                  className="font-semibold text-gray-900 mb-1"
+                  style={{ fontSize: '1rem' }}
+                >
+                  {listing.seller.name}
+                </h3>
+                <p className="text-sm text-gray-600">⭐ {listing.seller.rating} • Verified Student</p>
+              </div>
+              <Button variant="outline" className="rounded-xl border-2 hover:border-[#2563EB] hover:text-[#2563EB] transition-all">
+                View Profile
+              </Button>
             </div>
-            <div className="flex-1">
-              <h3 className="font-semibold text-gray-900">{listing.seller.name}</h3>
-              <p className="text-sm text-gray-600">⭐ {listing.seller.rating} • Verified Student</p>
-            </div>
-            <Button variant="outline" className="rounded-xl">
-              View Profile
-            </Button>
-          </div>
-        </Card>
+          </Card>
+        </motion.div>
 
         {/* Description */}
-        <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">Description</h3>
-          <p className="text-gray-700 leading-relaxed">{listing.description}</p>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+        >
+          <h3 
+            className="font-semibold text-gray-900 mb-4"
+            style={{ fontSize: '1.25rem', fontWeight: 600 }}
+          >
+            Description
+          </h3>
+          <p 
+            className="text-gray-700 leading-relaxed"
+            style={{ fontSize: '1rem', lineHeight: 1.7 }}
+          >
+            {listing.description}
+          </p>
+        </motion.div>
 
         {/* Category */}
-        <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">Category</h3>
-          <span className="inline-block px-4 py-2 bg-blue-100 text-blue-600 rounded-xl text-sm font-medium">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.3 }}
+        >
+          <h3 
+            className="font-semibold text-gray-900 mb-4"
+            style={{ fontSize: '1.25rem', fontWeight: 600 }}
+          >
+            Category
+          </h3>
+          <span 
+            className="inline-block px-5 py-2.5 rounded-xl text-sm font-semibold shadow-sm"
+            style={{ backgroundColor: '#EFF6FF', color: '#2563EB' }}
+          >
             {listing.category}
           </span>
-        </div>
+        </motion.div>
       </div>
 
       {/* Bottom Actions */}
-      <div className="sticky bottom-0 bg-white border-t border-gray-200 p-4 safe-area-bottom">
-        <div className="flex items-center gap-3">
+      <div className="sticky bottom-0 bg-white border-t border-gray-200 p-6 safe-area-bottom shadow-lg">
+        <div className="max-w-4xl mx-auto flex items-center gap-4">
           <Button
             variant="outline"
-            className="flex-1 h-12 rounded-xl"
+            className="flex-1 h-14 rounded-xl border-2 hover:border-[#2563EB] hover:text-[#2563EB] transition-all font-semibold"
             onClick={handleMessageClick}
           >
             <MessageCircle className="w-5 h-5 mr-2" />
             Message
           </Button>
-          <Button
-            className="flex-1 h-12 rounded-xl text-base font-semibold"
-            style={{ backgroundColor: "#2563EB" }}
-          >
-            Make Offer
-          </Button>
+          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="flex-1">
+            <Button
+              className="w-full h-14 rounded-xl text-base font-semibold shadow-md hover:shadow-lg transition-all"
+              style={{ backgroundColor: "#2563EB" }}
+            >
+              Make Offer
+            </Button>
+          </motion.div>
         </div>
       </div>
     </div>

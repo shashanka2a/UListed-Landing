@@ -39,50 +39,61 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-white border-b border-gray-200 px-4 py-4">
-        <div className="flex items-center justify-between mb-3">
-          <h1 className="text-xl font-bold text-gray-900">Messages</h1>
-          <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-            <MoreVertical className="w-5 h-5 text-gray-600" />
-          </button>
-        </div>
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-          <Input
-            type="text"
-            placeholder="Search conversations..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 h-11 rounded-xl border-2 bg-gray-50"
-          />
+      <header className="sticky top-0 z-40 bg-white border-b border-gray-200 px-6 py-6 shadow-sm">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-between mb-4">
+            <h1 
+              className="text-gray-900"
+              style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', fontWeight: 700 }}
+            >
+              Messages
+            </h1>
+            <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+              <MoreVertical className="w-5 h-5 text-gray-600" />
+            </button>
+          </div>
+          <div className="relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <Input
+              type="text"
+              placeholder="Search conversations..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-12 h-12 rounded-xl border-2 border-gray-200 bg-white focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/10 transition-all"
+            />
+          </div>
         </div>
       </header>
 
       {/* Chat List */}
-      <div className="px-4 py-4 space-y-2">
+      <div className="px-6 py-6 max-w-7xl mx-auto space-y-3">
         {filteredChats.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-500 mb-4">No conversations found</p>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center py-16"
+          >
+            <p className="text-gray-500 mb-6" style={{ fontSize: '1rem' }}>No conversations found</p>
             <Button
               onClick={() => router.push("/marketplace/feed")}
-              className="rounded-xl"
+              className="rounded-xl h-12 px-6 font-semibold hover:shadow-lg transition-all"
               style={{ backgroundColor: "#2563EB" }}
             >
               Browse Listings
             </Button>
-          </div>
+          </motion.div>
         ) : (
           filteredChats.map((chat, index) => (
             <motion.div
               key={chat.id}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.2, delay: index * 0.05 }}
+              transition={{ duration: 0.3, delay: index * 0.05 }}
             >
               <Link href={`/marketplace/chat/${chat.id}`}>
-                <Card className="rounded-2xl border border-gray-200 p-4 hover:shadow-md transition-all cursor-pointer bg-white">
+                <Card className="rounded-2xl border border-gray-200 p-5 hover:shadow-lg transition-all duration-300 cursor-pointer bg-white group">
                   <div className="flex items-start gap-3">
                     <div className="relative w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
                       <Image
@@ -102,7 +113,10 @@ export default function ChatPage() {
                       <div className="flex items-center justify-between">
                         <p className="text-sm text-gray-700 truncate flex-1">{chat.lastMessage}</p>
                         {chat.unread > 0 && (
-                          <span className="ml-2 px-2 py-0.5 bg-[#2563EB] text-white text-xs font-semibold rounded-full min-w-[20px] text-center">
+                          <span 
+                            className="ml-2 px-2.5 py-1 bg-[#2563EB] text-white text-xs font-semibold rounded-full min-w-[22px] text-center shadow-sm"
+                            style={{ backgroundColor: '#2563EB' }}
+                          >
                             {chat.unread}
                           </span>
                         )}

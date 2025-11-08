@@ -74,9 +74,9 @@ export default function ChatDetailPage({ params }: { params: Promise<{ id: strin
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-white border-b border-gray-200 px-4 py-4">
+      <header className="sticky top-0 z-40 bg-white border-b border-gray-200 px-6 py-4 shadow-sm">
         <div className="flex items-center gap-3">
           <button
             onClick={() => router.back()}
@@ -113,8 +113,11 @@ export default function ChatDetailPage({ params }: { params: Promise<{ id: strin
             transition={{ duration: 0.2, delay: index * 0.05 }}
             className={`flex ${message.sender === "me" ? "justify-end" : "justify-start"}`}
           >
-            <div
-              className={`max-w-[75%] rounded-2xl px-4 py-2 ${
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.2 }}
+              className={`max-w-[75%] rounded-2xl px-4 py-3 shadow-sm ${
                 message.sender === "me"
                   ? "bg-[#2563EB] text-white"
                   : "bg-white border border-gray-200 text-gray-900"
@@ -122,35 +125,37 @@ export default function ChatDetailPage({ params }: { params: Promise<{ id: strin
             >
               <p className="text-sm">{message.text}</p>
               <p
-                className={`text-xs mt-1 ${
+                className={`text-xs mt-1.5 ${
                   message.sender === "me" ? "text-blue-100" : "text-gray-500"
                 }`}
               >
                 {message.time}
               </p>
-            </div>
+            </motion.div>
           </motion.div>
         ))}
         <div ref={messagesEndRef} />
       </div>
 
       {/* Input */}
-      <div className="sticky bottom-0 bg-white border-t border-gray-200 p-4">
-        <form onSubmit={handleSend} className="flex items-center gap-2">
+      <div className="sticky bottom-0 bg-white border-t border-gray-200 p-4 safe-area-bottom shadow-lg">
+        <form onSubmit={handleSend} className="flex items-center gap-3 max-w-7xl mx-auto">
           <Input
             type="text"
             placeholder="Type a message..."
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
-            className="flex-1 h-12 rounded-full border-2"
+            className="flex-1 h-12 rounded-full border-2 border-gray-200 focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/10 transition-all"
           />
-          <Button
-            type="submit"
-            className="h-12 w-12 rounded-full p-0"
-            style={{ backgroundColor: "#2563EB" }}
-          >
-            <Send className="w-5 h-5" />
-          </Button>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Button
+              type="submit"
+              className="h-12 w-12 rounded-full p-0 shadow-md hover:shadow-lg transition-all"
+              style={{ backgroundColor: "#2563EB" }}
+            >
+              <Send className="w-5 h-5" />
+            </Button>
+          </motion.div>
         </form>
       </div>
     </div>

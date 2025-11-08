@@ -101,13 +101,20 @@ export default function SellPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-white border-b border-gray-200 px-4 py-4">
-        <h1 className="text-xl font-bold text-gray-900">Create Listing</h1>
+      <header className="sticky top-0 z-40 bg-white border-b border-gray-200 px-6 py-6 shadow-sm">
+        <div className="max-w-7xl mx-auto">
+          <h1 
+            className="text-gray-900"
+            style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', fontWeight: 700 }}
+          >
+            Create Listing
+          </h1>
+        </div>
       </header>
 
-      <form onSubmit={handleSubmit} className="px-4 py-6 space-y-6">
+      <form onSubmit={handleSubmit} className="px-6 py-8 max-w-2xl mx-auto space-y-6">
         {/* Image Upload */}
         <div>
           <Label className="text-sm font-medium text-gray-700 mb-3 block">
@@ -127,10 +134,14 @@ export default function SellPage() {
               </div>
             ))}
             {images.length < 6 && (
-              <label className="aspect-square rounded-xl border-2 border-dashed border-gray-300 flex items-center justify-center cursor-pointer hover:border-[#2563EB] transition-colors bg-gray-50">
+              <motion.label
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="aspect-square rounded-xl border-2 border-dashed border-gray-300 flex items-center justify-center cursor-pointer hover:border-[#2563EB] transition-all duration-300 bg-gray-50 hover:bg-blue-50/50"
+              >
                 <div className="text-center">
-                  <Camera className="w-6 h-6 text-gray-400 mx-auto mb-1" />
-                  <span className="text-xs text-gray-500">Add Photo</span>
+                  <Camera className="w-6 h-6 text-gray-400 mx-auto mb-2" />
+                  <span className="text-xs text-gray-500 font-medium">Add Photo</span>
                 </div>
                 <input
                   type="file"
@@ -139,7 +150,7 @@ export default function SellPage() {
                   onChange={handleImageUpload}
                   className="hidden"
                 />
-              </label>
+              </motion.label>
             )}
           </div>
         </div>
@@ -149,29 +160,29 @@ export default function SellPage() {
           <Label htmlFor="title">Title</Label>
           <div className="relative">
             <Tag className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-            <Input
-              id="title"
-              placeholder="What are you selling?"
-              value={formData.title}
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              required
-              className="pl-10 h-12 rounded-xl border-2"
-            />
+              <Input
+                id="title"
+                placeholder="What are you selling?"
+                value={formData.title}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                required
+                className="pl-10 h-12 rounded-xl border-2 border-gray-200 focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/10 transition-all"
+              />
           </div>
         </div>
 
         {/* Description */}
         <div className="space-y-2">
           <Label htmlFor="description">Description</Label>
-          <Textarea
-            id="description"
-            placeholder="Describe your item..."
-            value={formData.description}
-            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            required
-            rows={4}
-            className="rounded-xl border-2 resize-none"
-          />
+            <Textarea
+              id="description"
+              placeholder="Describe your item..."
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              required
+              rows={4}
+              className="rounded-xl border-2 border-gray-200 focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/10 transition-all resize-none"
+            />
         </div>
 
         {/* Price */}
@@ -179,30 +190,30 @@ export default function SellPage() {
           <Label htmlFor="price">Price ($)</Label>
           <div className="relative">
             <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-            <Input
-              id="price"
-              type="number"
-              placeholder="0.00"
-              value={formData.price}
-              onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-              required
-              min="0"
-              step="0.01"
-              className="pl-10 h-12 rounded-xl border-2"
-            />
+              <Input
+                id="price"
+                type="number"
+                placeholder="0.00"
+                value={formData.price}
+                onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                required
+                min="0"
+                step="0.01"
+                className="pl-10 h-12 rounded-xl border-2 border-gray-200 focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/10 transition-all"
+              />
           </div>
         </div>
 
         {/* Category */}
         <div className="space-y-2">
           <Label htmlFor="category">Category</Label>
-          <select
-            id="category"
-            value={formData.category}
-            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-            required
-            className="w-full h-12 rounded-xl border-2 border-gray-200 px-4 text-gray-900 bg-white focus:outline-none focus:border-[#2563EB]"
-          >
+            <select
+              id="category"
+              value={formData.category}
+              onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+              required
+              className="w-full h-12 rounded-xl border-2 border-gray-200 px-4 text-gray-900 bg-white focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/10 transition-all"
+            >
             <option value="">Select a category</option>
             {categories.map((cat) => (
               <option key={cat} value={cat}>
@@ -217,33 +228,39 @@ export default function SellPage() {
           <Label htmlFor="location">Location</Label>
           <div className="relative">
             <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-            <Input
-              id="location"
-              placeholder="e.g., Main Campus, Dorm A"
-              value={formData.location}
-              onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-              required
-              className="pl-10 h-12 rounded-xl border-2"
-            />
+              <Input
+                id="location"
+                placeholder="e.g., Main Campus, Dorm A"
+                value={formData.location}
+                onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                required
+                className="pl-10 h-12 rounded-xl border-2 border-gray-200 focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/10 transition-all"
+              />
           </div>
         </div>
 
         {/* Error Message */}
         {error && (
-          <div className="text-sm text-red-600 bg-red-50 p-3 rounded-xl">
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-sm text-red-600 bg-red-50 p-4 rounded-xl border border-red-200"
+          >
             {error}
-          </div>
+          </motion.div>
         )}
 
         {/* Submit Button */}
-        <Button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full h-14 rounded-xl text-base font-semibold mt-8"
-          style={{ backgroundColor: "#2563EB" }}
-        >
-          {isSubmitting ? "Creating Listing..." : "List Item"}
-        </Button>
+        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full h-14 rounded-xl text-base font-semibold mt-8 shadow-md hover:shadow-lg transition-all"
+            style={{ backgroundColor: "#2563EB" }}
+          >
+            {isSubmitting ? "Creating Listing..." : "List Item"}
+          </Button>
+        </motion.div>
       </form>
     </div>
   );
